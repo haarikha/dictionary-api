@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haarikha.github.io/dictionary-api/sitemap.xml
