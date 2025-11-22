@@ -3,77 +3,168 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Harika's Free Dictionary API</title>
+  <title>Free English Dictionary API by Harika — Free dictionary & word meanings API</title>
 
-  <!-- SEO meta -->
-  <meta name="description" content="Free Dictionary API — simple REST endpoint to get word definitions. Example: /define?word=apple" />
-  <meta name="keywords" content="free dictionary api, english dictionary api, dictionary meaning api, definition api, simple dictionary api, no auth dictionary api, free api for developers" />
+  <!-- Primary SEO -->
+  <meta name="description" content="Free English Dictionary API by Harika — fast, simple, and free REST API to get word definitions, parts of speech, examples and phonetics. No signup or API key required." />
+  <meta name="keywords" content="free dictionary api, english dictionary api, definition api, word meaning api, free api for developers, no auth dictionary api" />
   <meta name="author" content="Harika" />
 
+  <!-- Open Graph / social -->
+  <meta property="og:title" content="Free English Dictionary API by Harika" />
+  <meta property="og:description" content="Fast, simple, free REST API to get English word definitions, example sentences, parts of speech and phonetics (no signup)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/mnt/data/cda9061b-af2c-4e57-b6ee-367dc48a4270.png" />
+  <meta property="og:url" content="https://haarikha.github.io/dictionary-api/" />
+
+  <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- JSON-LD structured data: WebPage + FAQPage (helps search results) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Free English Dictionary API by Harika",
+    "description": "Free English Dictionary API — fast, simple, free REST API for word definitions, phonetics and examples. No signup required.",
+    "url": "https://haarikha.github.io/dictionary-api/",
+    "publisher": {
+      "@type": "Person",
+      "name": "Harika"
+    },
+    "mainEntity": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this dictionary API free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — this API is completely free and requires no signup or API key."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get the meaning of a word?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Call the /define endpoint with a query parameter: /define?word=your_word (see examples below)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the API return?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A clean JSON object with the word, partOfSpeech, definition, example (if available), and phonetics."
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
 </head>
 <body>
   <header class="hero">
     <div class="wrap">
-      <h1>Harika’s Free Dictionary API</h1>
-      <p class="tagline">A simple, free API that returns English word definitions. No signup required.</p>
-      <p class="live-url">Live: <a href="https://dictionary-api-7hmy.onrender.com" target="_blank" rel="noopener">https://dictionary-api-7hmy.onrender.com</a></p>
+      <h1>Free English Dictionary API by Harika</h1>
+      <p class="tagline">Fast, simple, free REST API to get English word definitions, parts of speech, examples and phonetics — no signup required.</p>
+      <p class="live-url">Live API: <a href="https://dictionary-api-7hmy.onrender.com" target="_blank" rel="noopener">https://dictionary-api-7hmy.onrender.com</a></p>
     </div>
   </header>
 
   <main class="wrap">
     <section>
-      <h2>Quick Start</h2>
-      <p>Call the <code>/define</code> endpoint with a query parameter <code>word</code>:</p>
+      <h2>Quick Start — get a definition in one call</h2>
+      <p>Use the <code>/define</code> endpoint with a <code>word</code> query parameter. Example:</p>
 
       <pre><code>GET https://dictionary-api-7hmy.onrender.com/define?word=apple</code></pre>
 
-      <h3>Example (curl)</h3>
+      <h3>curl example</h3>
       <pre><code>curl "https://dictionary-api-7hmy.onrender.com/define?word=apple"</code></pre>
 
-      <h3>Example response</h3>
+      <h3>Node (fetch) example</h3>
+      <pre><code>fetch('https://dictionary-api-7hmy.onrender.com/define?word=apple')
+  .then(r => r.json())
+  .then(console.log)
+  .catch(console.error)</code></pre>
+
+      <h3>Example response (clean JSON)</h3>
       <pre><code>{
-  "word": "apple",
-  "partOfSpeech": "noun",
-  "definition": "A common, round fruit produced by the tree Malus domestica..."
+  "word":"apple",
+  "partOfSpeech":"noun",
+  "definition":"A common, round fruit produced by the tree Malus domestica, cultivated in temperate climates.",
+  "example":"She took a bite of the ripe apple.",
+  "phonetics":[{"text":"/ˈæp.əl/","audio":"https://..."}]
 }</code></pre>
     </section>
 
     <section>
-      <h2>Parameters</h2>
+      <h2>Endpoints</h2>
       <ul>
-        <li><strong>word</strong> (required) — the word to look up, e.g. <code>?word=hello</code></li>
+        <li><strong>GET /</strong> — health check (returns status).</li>
+        <li><strong>GET /words</strong> — returns the in-memory sample list (for demo).</li>
+        <li><strong>GET /define?word=WORD</strong> — returns a simplified definition object for <code>WORD</code>.</li>
       </ul>
 
-      <h2>HTTP Statuses</h2>
+      <h3>Query parameters</h3>
       <ul>
-        <li><code>200</code> — success (JSON body)</li>
-        <li><code>400</code> — bad request (missing ?word=)</li>
+        <li><code>word</code> (required) — the English word you want to lookup, e.g. <code>?word=hello</code>.</li>
+      </ul>
+
+      <h3>HTTP status codes</h3>
+      <ul>
+        <li><code>200</code> — success (definition returned)</li>
+        <li><code>400</code> — missing <code>?word=</code> parameter</li>
         <li><code>404</code> — word not found</li>
-        <li><code>500</code> — server error</li>
+        <li><code>500</code> — provider or server error</li>
       </ul>
     </section>
 
     <section>
-      <h2>Demo / Screenshot</h2>
-      <p>Live server health-check (example):</p>
-      <!-- This img points at the screenshot path we have in your session -->
-      <img src="screenshot.png" alt="Deployed API screenshot" class="screenshot" />
-      <p>If you publish the docs to GitHub Pages, upload a screenshot file to <code>docs/</code> and change the <code>img src</code> to <code>screenshot.png</code>.</p>
-    </section>
-
-    <section>
-      <h2>Notes & Usage</h2>
+      <h2>Notes, rate limits & best practices</h2>
+      <p><strong>Provider</strong>: This service uses <a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">dictionaryapi.dev</a> under the hood and returns a simplified JSON response for easier consumption.</p>
+      <p><strong>Rate limits</strong>: None enforced yet on this endpoint. If you expect heavy traffic, add a caching layer (CDN or server-side) and rate limiting to avoid overuse.</p>
+      <p><strong>Usage tips</strong>:</p>
       <ol>
-        <li>This API uses <code>dictionaryapi.dev</code> under the hood and returns a simplified JSON.</li>
-        <li>Rate limits: none enforced yet — if you expect heavy usage, consider adding caching or rate-limiting.</li>
-        <li>Want to contribute? The code is on <a href="https://github.com/haarikha/dictionary-api" target="_blank">GitHub</a>.</li>
+        <li>Cache popular queries on the client for a short time.</li>
+        <li>Validate the <code>word</code> parameter (trim and lowercase) before calling the API.</li>
+        <li>Use the returned <code>phonetics</code> audio URLs if you need pronunciation playback in your UI.</li>
       </ol>
     </section>
 
+    <section>
+      <h2>Demo & screenshot</h2>
+      <p>Live example output (deployed at Render):</p>
+      <img src="/mnt/data/cda9061b-af2c-4e57-b6ee-367dc48a4270.png" alt="Deployed API screenshot" class="screenshot" />
+      <p>API base: <a href="https://dictionary-api-7hmy.onrender.com/define?word=playground" target="_blank">https://dictionary-api-7hmy.onrender.com/define?word=playground</a></p>
+    </section>
+
+    <section>
+      <h2>FAQ</h2>
+      <dl>
+        <dt><strong>Is the API free?</strong></dt>
+        <dd>Yes — completely free and open for developers to use. No API key required.</dd>
+
+        <dt><strong>Can I use it in production?</strong></dt>
+        <dd>Yes, but be careful: the free Render instance can spin down (cold start) if idle. Consider self-hosting or a paid Render plan for production reliability.</dd>
+
+        <dt><strong>Do you provide bulk lookup?</strong></dt>
+        <dd>Not currently — this service is optimized for single-word lookups. For bulk needs, add a caching layer or request a custom plan.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Contribute / Source code</h2>
+      <p>The code is available on GitHub: <a href="https://github.com/haarikha/dictionary-api" target="_blank">github.com/haarikha/dictionary-api</a>.</p>
+      <p>If you want to contribute or open an issue, please use the GitHub repo.</p>
+    </section>
+
     <footer>
-      <p>Made by Harika • <a href="https://github.com/haarikha/dictionary-api" target="_blank">GitHub repo</a></p>
+      <p>© Harika — Free English Dictionary API. Made with ❤️.</p>
     </footer>
   </main>
+
 </body>
 </html>
