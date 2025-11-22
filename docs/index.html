@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Harika's Free Dictionary API</title>
+
+  <!-- SEO meta -->
+  <meta name="description" content="Free Dictionary API — simple REST endpoint to get word definitions. Example: /define?word=apple" />
+  <meta name="keywords" content="free dictionary api, english dictionary api, dictionary meaning api, definition api, simple dictionary api, no auth dictionary api, free api for developers" />
+  <meta name="author" content="Harika" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <h1>Harika’s Free Dictionary API</h1>
+      <p class="tagline">A simple, free API that returns English word definitions. No signup required.</p>
+      <p class="live-url">Live: <a href="https://dictionary-api-7hmy.onrender.com" target="_blank" rel="noopener">https://dictionary-api-7hmy.onrender.com</a></p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>Quick Start</h2>
+      <p>Call the <code>/define</code> endpoint with a query parameter <code>word</code>:</p>
+
+      <pre><code>GET https://dictionary-api-7hmy.onrender.com/define?word=apple</code></pre>
+
+      <h3>Example (curl)</h3>
+      <pre><code>curl "https://dictionary-api-7hmy.onrender.com/define?word=apple"</code></pre>
+
+      <h3>Example response</h3>
+      <pre><code>{
+  "word": "apple",
+  "partOfSpeech": "noun",
+  "definition": "A common, round fruit produced by the tree Malus domestica..."
+}</code></pre>
+    </section>
+
+    <section>
+      <h2>Parameters</h2>
+      <ul>
+        <li><strong>word</strong> (required) — the word to look up, e.g. <code>?word=hello</code></li>
+      </ul>
+
+      <h2>HTTP Statuses</h2>
+      <ul>
+        <li><code>200</code> — success (JSON body)</li>
+        <li><code>400</code> — bad request (missing ?word=)</li>
+        <li><code>404</code> — word not found</li>
+        <li><code>500</code> — server error</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Demo / Screenshot</h2>
+      <p>Live server health-check (example):</p>
+      <!-- This img points at the screenshot path we have in your session -->
+      <img src="/mnt/data/db0be328-aaa3-4de6-af4a-39fdd3ac73ec.png" alt="Deployed API screenshot" class="screenshot" />
+      <p>If you publish the docs to GitHub Pages, upload a screenshot file to <code>docs/</code> and change the <code>img src</code> to <code>screenshot.png</code>.</p>
+    </section>
+
+    <section>
+      <h2>Notes & Usage</h2>
+      <ol>
+        <li>This API uses <code>dictionaryapi.dev</code> under the hood and returns a simplified JSON.</li>
+        <li>Rate limits: none enforced yet — if you expect heavy usage, consider adding caching or rate-limiting.</li>
+        <li>Want to contribute? The code is on <a href="https://github.com/haarikha/dictionary-api" target="_blank">GitHub</a>.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p>Made by Harika • <a href="https://github.com/haarikha/dictionary-api" target="_blank">GitHub repo</a></p>
+    </footer>
+  </main>
+</body>
+</html>
